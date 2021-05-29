@@ -2,11 +2,17 @@ const Block = require('./block');
 
 class Blockchain {
   constructor() {
-    this.chain = [];
+    this.chain = [Block.genesis()];
   }
 
-  const addBlock(){
-    
+  addBlock({ data }){
+    var newBlock = Block.mineBlock({
+      lastBlock: this.chain[this.chain.length-1],
+      data
+    });
+    this.chain.push(newBlock);
+
+    console.log('this is the blockchain: ', this.chain)
   }
 }
 
