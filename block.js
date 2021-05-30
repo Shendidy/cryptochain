@@ -17,6 +17,8 @@ class Block {
     const timestamp = Date.now();
     const lastHash = lastBlock.hash;
 
+    console.log('Creating new block...');
+
     return new this({
       timestamp,
       lastHash,

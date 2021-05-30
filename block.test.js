@@ -34,6 +34,9 @@ describe('Block', () => {
   });
 
   describe('mineBlock()', () => {
+    let logMock = jest.fn();
+    global.console.log = logMock;
+  
     const lastBlock = Block.genesis();
     const data = 'new data';
     const minedBlock = Block.mineBlock({lastBlock, data});
@@ -57,6 +60,10 @@ describe('Block', () => {
     it('creates a SHA256 `hash` based on the properinputs', () => {
       expect(minedBlock.hash)
       .toEqual(cryptoHash(minedBlock.timestamp, data, lastBlock.hash))
+    });
+
+    it('logs about creating the new block', () => {
+      expect(logMock).toHaveBeenCalled();
     });
   });
 });

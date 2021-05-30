@@ -2,7 +2,16 @@ const Blockchain = require('./blockchain');
 const Block = require('./block');
 
 describe('Blockchain', () => {
-  let blockchain, newChain, originalChain;
+  let blockchain, newChain, originalChain, errorMock, logMock;
+
+  beforeEach(() => {
+    errorMock = jest.fn();
+    logMock = jest.fn();
+
+    global.console.error = errorMock;
+    global.console.log = logMock;
+  });
+
 
   beforeEach(() => {
     blockchain = new Blockchain();
@@ -71,17 +80,6 @@ describe('Blockchain', () => {
   });
 
   describe('replaceChain()', () => {
-
-    let errorMock, logMock;
-
-    beforeEach(() => {
-      errorMock = jest.fn();
-      logMock = jest.fn();
-
-      global.console.error = errorMock;
-      global.console.log = logMock;
-    });
-
     describe('when the new chain is not longer than the existing old chain', () => {
       beforeEach(() => {
         newChain.chain[0] = { new: 'chain' };
