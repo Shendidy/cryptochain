@@ -22,12 +22,26 @@ class Blockchain {
     {
       if(chain[i].lastHash !== chain[i-1].hash)
         return false;
-        
+
       if(chain[i].hash !== cryptoHash(chain[i].timestamp, chain[i].lastHash, chain[i].data))
         return false;
     }
 
     return true;
+  }
+
+  replaceChain(chain){
+    if(chain.length <= this.chain.length) {
+      console.error('The incoming chain is shorter than or equal to the existing chain!');
+      return;
+    }
+    if(!Blockchain.isValidChain(chain)) {
+      console.error('The incoming chain is not a valid chain');
+      return;
+    }
+    
+    console.log('replacing chain with: ', chain);
+    this.chain = chain;
   }
 }
 
