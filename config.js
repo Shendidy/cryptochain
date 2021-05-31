@@ -1,8 +1,12 @@
+const INITIAL_DIFFICULTY = 3;
+
 const GENESIS_DATA = {
   timestamp: 1,
   lastHash: 'genesis last hash',
   hash: 'genesis hash',
-  data: []
+  data: [],
+  nonce: 0,
+  difficulty: INITIAL_DIFFICULTY
 };
 
 module.exports = {GENESIS_DATA};
