@@ -25,6 +25,8 @@ class Blockchain {
 
       if(chain[i].hash !== cryptoHash(chain[i].timestamp, chain[i].lastHash, chain[i].data, chain[i].nonce, chain[i].difficulty))
         return false;
+      
+        if(Math.abs(chain[i].difficulty - chain[i-1].difficulty) > 1) return false;
     }
 
     return true;
