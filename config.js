@@ -1,5 +1,5 @@
 const INITIAL_DIFFICULTY = 3;
-const MINE_RATE = 1000;
+const MINE_RATE = 3000;
 const MINE_RATE_WINDOW = 0; //MINE_RATE / 9999990; // don't divide by more than 9999990
 
 const GENESIS_DATA = {
