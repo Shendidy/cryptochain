@@ -1,5 +1,5 @@
 const Block = require('./block');
-const { GENESIS_DATA, MINE_RATE, MINE_RATE_WINDOW } = require('./config');
+const { GENESIS_DATA, INITIAL_DIFFICULTY, MINE_RATE, MINE_RATE_WINDOW } = require('./config');
 const cryptoHash = require('./crypto-hash');
 
 describe('Block', () => {
@@ -8,7 +8,7 @@ describe('Block', () => {
   const hash = 'foo-hash';
   const data = ['blockchain', 'data'];
   const nonce = 1;
-  const difficulty = 1;
+  const difficulty = INITIAL_DIFFICULTY;
   const block = new Block({
     timestamp,
     data,
@@ -84,6 +84,12 @@ describe('Block', () => {
       expect(minedBlock.hash.substring(0, minedBlock.difficulty))
       .toEqual('0'.repeat(minedBlock.difficulty));
     });
+
+    it('adjusts the difficulty', () => {
+      const possibleResults = [lastBlock.difficulty + 1, lastBlock.difficulty - 1];
+
+      expect(possibleResults.includes(minedBlock.difficulty)).toBe(true);
+    });
   });
 
   describe('adjustDifficulty()', () => {
@@ -101,9 +107,19 @@ describe('Block', () => {
           timestamp: block.timestamp + MINE_RATE + MINE_RATE_WINDOW + 1
         })).toEqual(block.difficulty - 1)
       });
+
+      it('does not go below 1', () => {
+        block.difficulty = -1;
+
+        expect(Block.adjustDifficulty({originalBlock: block})).toEqual(1);
+      });
     });
 
     describe('where the mining duration is within the MINE_RATE_WINDOW', () => {
+      beforeEach(() => {
+        block.difficulty = INITIAL_DIFFICULTY;
+      });
+
       it('but higher than the MINE_RATE by the alowed window', () => {
         expect(Block.adjustDifficulty({
           originalBlock: block,
