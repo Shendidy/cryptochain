@@ -19,13 +19,10 @@ class PubSub {
   }
 
   handleMessage(channel, message) {
-    //console.log(`message received. Channel: ${channel}. Message: ${message}`);
-
     const parsedMessage = JSON.parse(message);
 
     if(channel === CHANNELS.BLOCKCHAIN) {
       this.blockchain.replaceChain(parsedMessage);
-      //setTimeout(() => console.log('New chain is: ', parsedMessage), 1000)
     }
   }
 
